@@ -1,8 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.conversordivisas;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 /**
  *
@@ -10,11 +12,22 @@ package com.mycompany.conversordivisas;
  */
 public class Conversor extends javax.swing.JFrame {
 
+    private final String apiKey = "https://v6.exchangerate-api.com/v6/1907c772ff6d84acfefcfd96/latest/USD";
+    
     /**
      * Creates new form Conversor
      */
     public Conversor() {
         initComponents();
+    }
+    
+    public void llenadoComboBox() throws IOException, InterruptedException{
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiKey)).build();
+        
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        
+        System.out.println(response.body());
     }
 
     /**
