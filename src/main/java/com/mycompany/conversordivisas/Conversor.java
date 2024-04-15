@@ -6,6 +6,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author diegobecerril
@@ -13,21 +18,41 @@ import java.net.http.HttpResponse;
 public class Conversor extends javax.swing.JFrame {
 
     private final String apiKey = "https://v6.exchangerate-api.com/v6/1907c772ff6d84acfefcfd96/latest/USD";
-    
+
     /**
      * Creates new form Conversor
+     * @throws java.io.IOException
+     * @throws java.lang.InterruptedException
      */
-    public Conversor() {
+    public Conversor() throws IOException, InterruptedException {
         initComponents();
+        llenadoComboBox();
     }
-    
-    public void llenadoComboBox() throws IOException, InterruptedException{
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiKey)).build();
-        
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        
-        System.out.println(response.body());
+
+    public void llenadoComboBox() throws IOException, InterruptedException {
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder().uri(URI.create(apiKey)).build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            
+            String jsonString = response.body();
+            
+            ObjectMapper mapper = new ObjectMapper();
+            
+            //Obtiene los valores de <conversion_rates> 
+            //el cual contiene las divisas y sus valores
+            JsonNode node = mapper.readTree(jsonString);
+            var conversion_rates = node.get("conversion_rates");
+            
+            //Agrega elementos a los comboBox
+            conversion_rates.fields().forEachRemaining(divisa -> {
+                jComboBoxMonedaActual.addItem(divisa.getKey());
+                jComboBoxMonedaNueva.addItem(divisa.getKey());
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -89,10 +114,20 @@ public class Conversor extends javax.swing.JFrame {
         jButtonConvertir.setBackground(new java.awt.Color(135, 195, 130));
         jButtonConvertir.setFont(new java.awt.Font("AppleGothic", 1, 13)); // NOI18N
         jButtonConvertir.setText("Convertir!");
+        jButtonConvertir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonConvertirActionPerformed(evt);
+            }
+        });
 
         jButtonIntercambiarMoneda1.setBackground(new java.awt.Color(135, 195, 130));
         jButtonIntercambiarMoneda1.setFont(new java.awt.Font("AppleGothic", 1, 13)); // NOI18N
         jButtonIntercambiarMoneda1.setText("Intercambiar moneda");
+        jButtonIntercambiarMoneda1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIntercambiarMoneda1ActionPerformed(evt);
+            }
+        });
 
         jLabelTitulo.setFont(new java.awt.Font("AppleGothic", 1, 18)); // NOI18N
         jLabelTitulo.setText("Conversor de monedas");
@@ -134,14 +169,9 @@ public class Conversor extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelConversorLayout.createSequentialGroup()
                                         .addComponent(jComboBoxMonedaActual, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(29, 29, 29)
-                                        .addGroup(jPanelConversorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanelConversorLayout.createSequentialGroup()
-                                                .addComponent(jLabelCantidad)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                            .addGroup(jPanelConversorLayout.createSequentialGroup()
-                                                .addComponent(jLabelFlecha)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                                                .addComponent(jComboBoxMonedaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(jLabelFlecha)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                                        .addComponent(jComboBoxMonedaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(21, 21, 21))))
                     .addGroup(jPanelConversorLayout.createSequentialGroup()
                         .addGap(52, 52, 52)
@@ -149,6 +179,10 @@ public class Conversor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabelMonedaNueva)
                         .addGap(49, 49, 49))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConversorLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelConversion, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(132, 132, 132))
                     .addGroup(jPanelConversorLayout.createSequentialGroup()
                         .addGroup(jPanelConversorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelConversorLayout.createSequentialGroup()
@@ -156,12 +190,12 @@ public class Conversor extends javax.swing.JFrame {
                                 .addComponent(jButtonIntercambiarMoneda1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanelConversorLayout.createSequentialGroup()
                                 .addGap(159, 159, 159)
-                                .addComponent(jTextFieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConversorLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelConversion, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(132, 132, 132))))
+                                .addGroup(jPanelConversorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanelConversorLayout.createSequentialGroup()
+                                        .addGap(40, 40, 40)
+                                        .addComponent(jLabelCantidad))
+                                    .addComponent(jTextFieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap())))
         );
         jPanelConversorLayout.setVerticalGroup(
             jPanelConversorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -178,11 +212,11 @@ public class Conversor extends javax.swing.JFrame {
                     .addComponent(jLabelFlecha)
                     .addComponent(jComboBoxMonedaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jComboBoxMonedaActual, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(49, 49, 49)
                 .addComponent(jLabelCantidad)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextFieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelConversorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonConvertir, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonIntercambiarMoneda1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -205,6 +239,19 @@ public class Conversor extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonConvertirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConvertirActionPerformed
+        
+    }//GEN-LAST:event_jButtonConvertirActionPerformed
+
+    //Intercambio de moneda a convertir
+    private void jButtonIntercambiarMoneda1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIntercambiarMoneda1ActionPerformed
+        String auxMonedaActual = jComboBoxMonedaActual.getSelectedItem().toString();
+        String auxMonedaNueva = jComboBoxMonedaNueva.getSelectedItem().toString();
+        
+        jComboBoxMonedaActual.setSelectedItem(auxMonedaNueva);
+        jComboBoxMonedaNueva.setSelectedItem(auxMonedaActual);
+    }//GEN-LAST:event_jButtonIntercambiarMoneda1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -236,7 +283,13 @@ public class Conversor extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Conversor().setVisible(true);
+                try {
+                    new Conversor().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(Conversor.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Conversor.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
