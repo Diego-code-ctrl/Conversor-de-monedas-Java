@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
 public class Conversor extends javax.swing.JFrame {
 
     private static final String APIKEY = "https://v6.exchangerate-api.com/v6/1907c772ff6d84acfefcfd96/latest/USD";
-    private List<String> historial = new ArrayList<String>();
+    private final List<String> historial = new ArrayList();
 
     /**
      * Creates new form Conversor
@@ -93,7 +93,7 @@ public class Conversor extends javax.swing.JFrame {
 
         jPanelConversor = new javax.swing.JPanel();
         jPanelHistorial = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabelHistorial = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaHistorial = new javax.swing.JTextArea();
         jButtonConvertir = new javax.swing.JButton();
@@ -117,8 +117,8 @@ public class Conversor extends javax.swing.JFrame {
 
         jPanelHistorial.setBackground(new java.awt.Color(203, 188, 141));
 
-        jLabel1.setFont(new java.awt.Font("AppleGothic", 1, 13)); // NOI18N
-        jLabel1.setText("Historial");
+        jLabelHistorial.setFont(new java.awt.Font("AppleGothic", 1, 13)); // NOI18N
+        jLabelHistorial.setText("Historial");
 
         jTextAreaHistorial.setEditable(false);
         jTextAreaHistorial.setColumns(20);
@@ -132,7 +132,7 @@ public class Conversor extends javax.swing.JFrame {
             jPanelHistorialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelHistorialLayout.createSequentialGroup()
                 .addGap(67, 67, 67)
-                .addComponent(jLabel1)
+                .addComponent(jLabelHistorial)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanelHistorialLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -142,7 +142,7 @@ public class Conversor extends javax.swing.JFrame {
             jPanelHistorialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelHistorialLayout.createSequentialGroup()
                 .addGap(0, 14, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addComponent(jLabelHistorial)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -182,7 +182,8 @@ public class Conversor extends javax.swing.JFrame {
 
         jTextFieldCantidad.setFont(new java.awt.Font("AppleGothic", 1, 13)); // NOI18N
 
-        jLabelConversion.setFont(new java.awt.Font("AppleGothic", 1, 18)); // NOI18N
+        jLabelConversion.setFont(new java.awt.Font("AppleGothic", 1, 24)); // NOI18N
+        jLabelConversion.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanelConversorLayout = new javax.swing.GroupLayout(jPanelConversor);
         jPanelConversor.setLayout(jPanelConversorLayout);
@@ -192,30 +193,11 @@ public class Conversor extends javax.swing.JFrame {
                 .addComponent(jPanelHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanelConversorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelConversorLayout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addGroup(jPanelConversorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelConversorLayout.createSequentialGroup()
-                                .addGap(34, 34, 34)
-                                .addComponent(jLabelMonedaActual)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabelMonedaNueva)
-                                .addGap(71, 71, 71))
-                            .addGroup(jPanelConversorLayout.createSequentialGroup()
-                                .addComponent(jButtonIntercambiarMoneda1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(278, 278, 278))
-                            .addGroup(jPanelConversorLayout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addGroup(jPanelConversorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanelConversorLayout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(jButtonConvertir, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelConversorLayout.createSequentialGroup()
-                                        .addComponent(jComboBoxMonedaActual, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabelFlecha)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jComboBoxMonedaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(43, 43, 43))))
+                        .addGap(78, 78, 78)
+                        .addComponent(jLabelMonedaActual)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelMonedaNueva)
+                        .addGap(71, 71, 71))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConversorLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanelConversorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,10 +210,25 @@ public class Conversor extends javax.swing.JFrame {
                                         .addGap(40, 40, 40)
                                         .addComponent(jLabelCantidad))
                                     .addComponent(jTextFieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(169, 169, 169))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConversorLayout.createSequentialGroup()
-                                .addComponent(jLabelConversion, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(141, 141, 141))))))
+                                .addGap(169, 169, 169))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConversorLayout.createSequentialGroup()
+                        .addGroup(jPanelConversorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanelConversorLayout.createSequentialGroup()
+                                .addGap(52, 52, 52)
+                                .addComponent(jComboBoxMonedaActual, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelFlecha)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                                .addComponent(jComboBoxMonedaNueva, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelConversorLayout.createSequentialGroup()
+                                .addGap(44, 44, 44)
+                                .addGroup(jPanelConversorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelConversion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelConversorLayout.createSequentialGroup()
+                                        .addComponent(jButtonIntercambiarMoneda1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButtonConvertir, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(43, 43, 43))))
         );
         jPanelConversorLayout.setVerticalGroup(
             jPanelConversorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,13 +247,17 @@ public class Conversor extends javax.swing.JFrame {
                     .addComponent(jComboBoxMonedaActual, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
                 .addComponent(jLabelCantidad)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextFieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanelConversorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonConvertir, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonIntercambiarMoneda1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(jPanelConversorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelConversorLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextFieldCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanelConversorLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanelConversorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButtonIntercambiarMoneda1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonConvertir, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(43, 43, 43)))
                 .addComponent(jLabelConversion, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
@@ -284,7 +285,7 @@ public class Conversor extends javax.swing.JFrame {
             ObjectMapper mapper = new ObjectMapper();
 
             JsonNode node = mapper.readTree(jsonString);
-            var conversion_rates = node.get("Convertions_rates");
+            var conversion_rates = node.get("conversion_rates");
             
             /*Obtención de la información del usuario
               - Moneda actual
@@ -296,12 +297,15 @@ public class Conversor extends javax.swing.JFrame {
             double cantidad = Double.parseDouble(jTextFieldCantidad.getText());
             
             //Empate de la información del usuario con la API
+            double valorMonedaActual = conversion_rates.get(monedaActual).asDouble();
+            double valorMonedaNueva = conversion_rates.get(monedaNueva).asDouble();
             
             //Cálculo de la conversión
-            
-            double conversion = 0;
-            
-            String resultado = cantidad + monedaActual + " son " + conversion + monedaNueva;
+            double conversion = cantidad / valorMonedaActual * valorMonedaNueva;
+            String conversionStr = String.format("%.3f", conversion);
+                               
+            String resultado = cantidad + monedaActual + " son " + conversionStr + monedaNueva;
+            jLabelConversion.setText(resultado);
             
             //Inserción en la parte del historial y su impresión
             llenadoHistorial(resultado);
@@ -369,10 +373,10 @@ public class Conversor extends javax.swing.JFrame {
     private javax.swing.JButton jButtonIntercambiarMoneda1;
     private javax.swing.JComboBox<String> jComboBoxMonedaActual;
     private javax.swing.JComboBox<String> jComboBoxMonedaNueva;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelCantidad;
     private javax.swing.JLabel jLabelConversion;
     private javax.swing.JLabel jLabelFlecha;
+    private javax.swing.JLabel jLabelHistorial;
     private javax.swing.JLabel jLabelMonedaActual;
     private javax.swing.JLabel jLabelMonedaNueva;
     private javax.swing.JLabel jLabelTitulo;

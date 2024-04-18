@@ -21,7 +21,7 @@ public class Prueba {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        String jsonString = response.body().toString();
+        String jsonString = response.body();
         
         //System.out.println("jsonString = " + jsonString);
 
